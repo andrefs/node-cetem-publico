@@ -215,6 +215,11 @@ class CETEMPublico {
         insideMWE = false;
         mweTokens = [];
 
+        // handle empty MWEs in CETEMPublico bug
+        if(curMwe.lema === "" && curMwe.pos === "" && mweTokens.length === 0){
+          continue;
+        }
+
         if(level === levels.token)    { yield mwe;            }
         else if (level < levels.token){ sentTokens.push(mwe); }
 
