@@ -1,7 +1,7 @@
 const fs = require('fs')
 const readline = require('readline');
 const Token = require('./token');
-// const MWE = require('./mwe';
+const MultiWordExpression = require('./mwe');
 const Title    = require('./title');
 const Authors  = require('./authors');
 const Sentence = require('./sentence');
@@ -27,11 +27,21 @@ const authorsEndRE   = /^\s*<\/a>/;
 const mweStartRE = /^\s*<mwe\s*(.*)>/;
 const mweEndRE   = /^\s*<\/mwe>/;
 
-const parseAttrs = str => {
+const parseExtAttrs = str => {
   let attrs = {};
   str.split(/\s+/).forEach(attr => {
     x = attr.split(/=/);
     attrs[x[0]] = x[1];
+  });
+  return attrs;
+}
+
+
+const parseMweAttrs = str => {
+  let attrs = {};
+  str.split(/\s+/).forEach(attr => {
+    attr.match(/^(\w+)=(.*)/);
+    attrs[RegExp.$1] = RegExp.$2;
   });
   return attrs;
 }
@@ -50,7 +60,7 @@ const parseLine = line => {
 
 class CETEMPublico {
   constructor(opts = {}){
-    this._file = opts.file || 'cpsmall.txt' || 'CETEMPublicoAnotado2019_10k.txt';
+    this._file = opts.file || 'CETEMPublicoAnotado2019_10k.txt';
     this._rl = readline.createInterface({
       input: fs.createReadStream(this._file)
     });
@@ -79,6 +89,9 @@ class CETEMPublico {
     let sentTokens = [];
     let sentCount = 0;
     let tokenCount = 0;
+    let insideMWE = false;
+    let mweTokens = [];
+    let curMwe;
 
     for await (const line of this.lines()){
       lineNum++;
@@ -86,13 +99,18 @@ class CETEMPublico {
       // Extract
 
       if(level === levels.ext && line.match(extStartRE)){
-        curExt = parseAttrs(RegExp.$1);
+        curExt = parseExtAttrs(RegExp.$1);
         extContents = [];
         continue;
       }
 
       if(level === levels.ext && line.match(extEndRE)){
-        yield new Extract(curExt, extContents);
+        const ext = new Extract(curExt, extContents);
+        extContents = [];
+
+        yield ext;
+
+        continue;
       }
 
 
@@ -107,6 +125,8 @@ class CETEMPublico {
 
       if(line.match(titleEndRE)){
         const title = new Title(sentTokens);
+        sentTokens = [];
+        tokenCount = 0;
 
         if(level === levels.par)   { yield title;             }
         else if(level < levels.par){ extContents.push(title); }
@@ -126,6 +146,8 @@ class CETEMPublico {
 
       if(line.match(authorsEndRE)){
         const authors = new Authors(sentTokens);
+        sentTokens = [];
+        tokenCount = 0;
 
         if(level === levels.par)   { yield authors;             }
         else if(level < levels.par){ extContents.push(authors); }
@@ -147,6 +169,8 @@ class CETEMPublico {
 
       if(line.match(parEndRE)){
         const par = new Paragraph(curPar, parSents);
+        parSents = [];
+        sentCount = 0;
 
         if(level === levels.par)   { yield par;             }
         else if(level < levels.par){ extContents.push(par); }
@@ -167,6 +191,8 @@ class CETEMPublico {
 
       if(line.match(sentEndRE)){
         const sent = new Sentence(sentCount, sentTokens);
+        sentTokens = [];
+        tokenCount = 0;
 
         if(level === levels.sent)    { yield sent;          }
         else if (level < levels.sent){ parSents.push(sent); }
@@ -177,8 +203,21 @@ class CETEMPublico {
 
       // MWE
 
-      if(line.match(/^<\/?(?:mwe)/)){
-        // TODO handle these
+      if(line.match(mweStartRE)){
+        curMwe = parseMweAttrs(RegExp.$1);
+        insideMWE = true;
+        mweTokens = [];
+        continue;
+      }
+
+      if(line.match(mweEndRE)){
+        const mwe = new MultiWordExpression(curMwe, mweTokens);
+        insideMWE = false;
+        mweTokens = [];
+
+        if(level === levels.token)    { yield mwe;            }
+        else if (level < levels.token){ sentTokens.push(mwe); }
+
         continue;
       }
 
@@ -189,8 +228,11 @@ class CETEMPublico {
       tokenCount++;
       const token = new Token(lineNum, tokenCount, fields);
 
-      if(level === levels.token)    { yield token;            }
-      else if (level < levels.token){ sentTokens.push(token); }
+      if(insideMWE){ mweTokens.push(token); }
+      else {
+        if(level === levels.token)    { yield token; continue;            }
+        else if (level < levels.token){ sentTokens.push(token); continue; }
+      }
 
 
       // Lines
