@@ -70,7 +70,7 @@ class CETEMPublico {
     return this._rl;
   }
 
-  async * process(iterLevel){
+  async * _process(iterLevel){
     const levels = {
       ext   : 0,
       par   : 1,
@@ -246,6 +246,23 @@ class CETEMPublico {
 
     }
   }
+
+  extracts(){
+    return this._process('ext');
+  }
+
+  paragraphs(){
+    return this._process('par');
+  }
+
+  sentences(){
+    return this._process('sent');
+  }
+
+  tokens(){
+    return this._process('token');
+  }
+
 }
 
 module.exports = new CETEMPublico();
