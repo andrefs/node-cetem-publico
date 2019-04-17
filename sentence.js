@@ -5,4 +5,10 @@ module.exports = class Sentence {
     this.id = sentId;
     this.tokens = tokens;
   }
+
+  toString(){
+    return '<s>\n'
+      + this.tokens.map(t => t.toString()).join('')
+      + '</s>\n';
+  }
 };

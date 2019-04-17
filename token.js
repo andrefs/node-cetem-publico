@@ -22,7 +22,7 @@ module.exports = class Token {
       this.lemma,
       this.pos,
       ...this.other
-    ].join('\t');
+    ].join('\t')+'\n';
   }
 };
 
