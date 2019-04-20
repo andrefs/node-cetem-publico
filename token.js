@@ -1,16 +1,19 @@
 
 module.exports = class Token {
-  constructor(lineNum, tokenId, {word, section, week, lemma, pos, other}){
-    this.lineNum = lineNum;
-    this.id      = tokenId;
+  constructor(word, info){
+    this.word = word;
+    if(info){
+      const {lineNum, tokenId, section, week, lemma, pos, other} = info;
 
-    this.word    = word;
-    this.section = section;
-    this.week    = week;
-    this.lemma   = lemma;
-    this.pos     = pos;
+      if(lineNum) { this.lineNum = lineNum; }
+      if(tokenId) { this.id      = tokenId; }
+      if(section) { this.section = section; }
+      if(week)    { this.week    = week;    }
+      if(lemma)   { this.lemma   = lemma;   }
+      if(pos)     { this.pos     = pos;     }
 
-    this.other = other;
+      if(other){ this.other = other; }
+    }
   }
 
   toString(){
@@ -21,8 +24,9 @@ module.exports = class Token {
       this.week,
       this.lemma,
       this.pos,
-      ...this.other
+      ...(this.other || [])
     ].join('\t')+'\n';
   }
 };
+
 

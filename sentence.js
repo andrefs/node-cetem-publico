@@ -3,12 +3,24 @@
 module.exports = class Sentence {
   constructor(sentId, tokens){
     this.id = sentId;
-    this.tokens = tokens;
+    this._tokens = tokens;
+  }
+
+  get tokens(){
+    return this._tokens;
+  }
+
+  set tokens(ts){
+    this._tokens = ts;
+  }
+
+  get length(){
+    return this._tokens.length;
   }
 
   toString(){
     return '<s>\n'
-      + this.tokens.map(t => t.toString()).join('')
+      + this._tokens.map(t => t.toString()).join('')
       + '</s>\n';
   }
 };
