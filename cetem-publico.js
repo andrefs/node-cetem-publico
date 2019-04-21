@@ -1,5 +1,9 @@
 const fs = require('fs')
 const readline = require('readline');
+const zlib     = require('zlib');
+const fileType = require('file-type');
+const readChunk = require('read-chunk');
+
 const Token = require('./token');
 const MultiWordExpression = require('./mwe');
 const Title    = require('./title');
@@ -59,11 +63,18 @@ const parseLine = line => {
 }
 
 class CETEMPublico {
-  constructor(opts = {}){
-    this._file = opts.file || 'CETEMPublicoAnotado2019_10k.txt';
-    this._rl = readline.createInterface({
-      input: fs.createReadStream(this._file)
-    });
+  constructor(file, opts = {}){
+    this._file = file || 'CETEMPublicoAnotado2019_10k.txt';
+
+    const buffer = readChunk.sync(this._file, 0, fileType.minimumBytes);
+    const ft = fileType(buffer);
+    const isGzip = ft && /application\/gzip/.test(ft.mime);
+
+    const input = isGzip ?
+      fs.createReadStream(this._file).pipe(zlib.createGunzip()) :
+      fs.createReadStream(this._file);
+
+    this._rl = readline.createInterface({input});
   }
 
   lines(){
@@ -265,4 +276,4 @@ class CETEMPublico {
 
 }
 
-module.exports = new CETEMPublico();
+module.exports = CETEMPublico;
