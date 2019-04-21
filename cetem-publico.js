@@ -3,6 +3,11 @@ const readline = require('readline');
 const zlib     = require('zlib');
 const fileType = require('file-type');
 const readChunk = require('read-chunk');
+const request = require('request');
+const progress = require('request-progress');
+const prettyBytes = require('pretty-bytes');
+const path = require('path');
+const mkdirp = require('mkdirp');
 
 const Token = require('./token');
 const MultiWordExpression = require('./mwe');
@@ -62,6 +67,29 @@ const parseLine = line => {
   };
 }
 
+const humanizeSecs = time => {
+  if(!time){ return '0s'; }
+  time = time.toFixed(0);
+
+  let h, m, s;
+  if(Math.floor(time/60) === 0){
+    return `${time}s`;
+  }
+
+  m = Math.floor(time/60);
+  s = time % 60;
+
+  if(Math.floor(m/60) === 0){
+    return `${m}m ${s}s`;
+  }
+
+  h = Math.floor(m/60);
+  m = m % 60;
+
+  return `${h}h ${m}m ${s}s`;
+}
+
+
 class CETEMPublico {
   constructor(file, opts = {}){
     this._file = file || 'CETEMPublicoAnotado2019_10k.txt';
@@ -75,6 +103,42 @@ class CETEMPublico {
       fs.createReadStream(this._file);
 
     this._rl = readline.createInterface({input});
+  }
+
+  download(){
+    const url = 'https://www.linguateca.pt/CETEMPublico/download/CETEMPublicoAnotado2019.txt';
+    const fileFolder = path.join(process.env.HOME, '.cetem-publico');
+    const fileName = 'CETEMPublicoAnotado2019.gz';
+    const file = path.join(fileFolder, fileName);
+
+    mkdirp.sync(fileFolder);
+    if(fs.existsSync(file)){
+      console.warn(`File ${file} already exists, refusing to overwrite...`);
+      return Promise.resolve();
+    }
+
+
+    return new Promise((resolve, reject) => {
+      progress(request(url))
+        .on('progress', state => {
+
+          const speed     = state.speed ? prettyBytes(state.speed) + '/s' : '\t\t';
+          const percent   = (state.percent * 100).toFixed(2);
+          const elapsed   = humanizeSecs(state.time.elapsed);
+          const remaining = humanizeSecs(state.time.remaining);
+          const transf    = prettyBytes(state.size.transferred);
+          const total     = prettyBytes(state.size.total);
+
+          process.stdout.write(`${fileName}\t${speed}\t${percent}%\t${elapsed}/${remaining}\t${transf}/${total}\r`);
+        })
+        .on('error', err => reject(err))
+        .on('end',   ()  => resolve(file))
+        .pipe(zlib.createGzip())
+        .pipe(fs.createWriteStream(file));
+    })
+    .then(() => {
+      this._file = file;
+    });
   }
 
   lines(){
