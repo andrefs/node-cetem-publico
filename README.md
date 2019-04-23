@@ -5,16 +5,26 @@ European Portuguese corpus of news from the newspaper Público, with 180 million
 
 ## Installation
 
-From [Npm][npmjs]:
-
 ```bash
 $ npm install cetem-publico
 ```
 
 This will download this module, but it won't download the corpus file,
-and it will fail if you try to use it.
+and it will fail if you try to use it. Use the
+[cp.download](#cpdownload) method to download the corpus file
+(12GB).
 
 ## Usage
+
+___
+
+**This is still a work in progress, API is subject to change without
+warning.**
+
+Do you have suggestions? Send me a message or a pull request on
+GitHub!
+___
+
 
 ```js
 const CETEMPublico = require('cetem-publico').CETEMPublico;
@@ -61,7 +71,7 @@ async function procExtracts(){
 ### new CETEMPublico(file, opts)
 
 * `file`: a string containing the path to a local CETEMPublico file. If not provided, the file will be loaded from `$HOME/.cetem-publico/CETEMPublicoAnotado2019.gz`.
-* `opts`: see [Options](#Options).
+* `opts`: see [Options](#options-todo).
 
 ### cp.download()
 
