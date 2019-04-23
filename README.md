@@ -27,7 +27,7 @@ ___
 
 
 ```js
-const CETEMPublico = require('cetem-publico').CETEMPublico;
+const {CETEMPublico} = require('cetem-publico');
 const cp = new CETEMPublico();
 
 // cp.download(); // to download the corpus file
