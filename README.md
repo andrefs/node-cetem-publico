@@ -88,17 +88,17 @@ containing one token from the original corpus file.
 ### cp.sentences(opts)
 
 Returns an `AsyncGenerator` object where each item is a Sentence
-object containing a `<sentence>` of the original corpus file.
+object containing a sentence (`<s>` tag) of the original corpus file.
 
 ### cp.paragraphs(opts)
 
 Returns an `AsyncGenerator` object where each item is a Paragraph
-object containing a `<paragraph>` of the original corpus file.
+object containing a paragraph (`<p> tag)` of the original corpus file.
 
 ### cp.extracts(opts)
 
 Returns an `AsyncGenerator` object where each item is an Extract
-object containing an `<extract>` of the original corpus file.
+object containing an extract (`<ext>` tag) of the original corpus file.
 
 ## Options (TODO)
 
@@ -132,20 +132,69 @@ format used by CETEMPublico, each token is in an individual line.
 
 CETEMPublico annotates some mult-word expressions using `<mwe>` tags.
 Inside each tag, the tokens which compose the expression, one in each
-line.
+line. MWEs can have attributes indicating the lemma and the POS tag
+for the whole expression.
 
 #### `new MultiWordExpression({lemma, pos}, tokens)`
 
-* `lemma`
+* `lemma`: the lemma for the multi-word expression
+* `pos`: the POS tag for the multi-word expression
+* `tokens`: an array of Token objects which make this MWE
+
 ### Sentence
 
-### Paragraph
+In CETEMPublico, a sentence is represented using a `<s>` tag.
+Sentences contain a list of tokens (the words in that sentence).
+Because some words can form multi-word expressions, inside a
+`Sentence` we can find both `Token`s and `MultiWordExpression`s
+(which, in turn, have `Token` objects inside).
 
-### Title
+#### `new Sentence(id, tokens)`
+
+* `id`: an id for the sentence
+* `tokens`: an array of tokens and MWEs which form this sentence
+
+### Paragraph
+A paragraph, represented in CETEMPublico using the tag `<p>`.
+Paragraphs are composed of a sequence of sentences.
+
+#### `new Paragraph(id, sentences)`
+
+* `id`: an id for the sentence
+* `sentences`: an array of sentences which form this paragraph
+
+### Extract
+
+An extract of an news article. Extracts are represented by the tag
+`<ext>` and contain a sequence of sentences. Optionally, they can also
+include a Title and Authors, and the attributes `n` (an id for the
+extract), `sec` (the newspaper section it was gathered from) and `sem`
+(the week in which it was published).
+
+#### `new Extract({n, sec, sem}, contents)`
+
+* `n`: the number of this extract
+* `section`: the section in which the extract was found
+* `week`: the week it was published on
+* `contents`: an array of Paragraph objects, possibly also including a
+  Title and an Authors objects
 
 ### Authors
 
-### Extract
+The authors of the article an Extract was gathered from.
+
+#### `new Authors(tokens)`
+
+* `tokens`: an array of `Token` objects, each being an author of the
+  article
+
+### Title
+
+The title of the article the Extract belongs to.
+
+#### `new Title(tokens)`
+
+* `tokens`: an array of `Token` objects which make the title
 
 ## TODO
 
