@@ -210,6 +210,9 @@ The title of the article the Extract belongs to.
 
 * Implement `opts`
 * Speed up download using `fast-request`?
+* Add options to `cp.download`
+    * Where to download from
+    * Where to download to
 * ...
 
 ## Bugs and stuff
