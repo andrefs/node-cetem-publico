@@ -1,6 +1,6 @@
 {
   "name": "cetem-publico",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "European Portuguese corpus of news from the newspaper Público, with 180 million words tagged with PALAVRAS.",
   "main": "index.js",
   "scripts": {
