@@ -1,0 +1,20 @@
+{
+  "name": "cetem-publico",
+  "version": "0.0.1",
+  "description": "European Portuguese corpus of news from the newspaper Público, with 180 million words tagged with PALAVRAS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "corpus",
+    "part-of-speech",
+    "news",
+    "natural",
+    "language",
+    "processing",
+    "nlp"
+  ],
+  "author": "André Santos",
+  "license": "ISC"
+}
