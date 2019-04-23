@@ -1,7 +1,7 @@
 
 # cetem-publico
 
-European Portuguese corpus of news from the newspaper Público, with 180 million words tagged with PALAVRAS.
+A wrapper for CETEMPúblico, an European Portuguese corpus of news extracts from the newspaper Público, with 180 million words tagged automatically using PALAVRAS.
 
 ## Installation
 
