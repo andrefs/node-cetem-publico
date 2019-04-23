@@ -111,9 +111,24 @@ object containing an `<extract>` of the original corpus file.
 ## Classes
 
 ### Token
+`new Token(word, info)`
+
+* `word` is the word in the original corpus text
+* `info` (all these are optional)
+    * `lineNum`: the line number for this token in the original corpus
+      file
+    * `tokenId`: an ID for this token
+    * `section`: the ID of the section the token is in
+    * `week`:
+    * `lemma`: the lemmatized version of `word`
+    * `pos`: the part-of-speech (POS) tag for `word`
+    * `other*: an object with all the extra information found in
+      CETEMPublico for this token
 
 ### MultiWordExpression
+`new MultiWordExpression({lemma, pos}, tokens)`
 
+* `lemma`
 ### Sentence
 
 ### Paragraph
@@ -130,21 +145,10 @@ object containing an `<extract>` of the original corpus file.
 * Speed up download using `fast-request`?
 * ...
 
-## Contribution
-
-* Source Code is hosted on [Github][repo]
-* Pull requests be accompanied with tests as in the `/tests` directory
-* Issues may be filed [here][issues]
+## Bugs and stuff
+Open a GitHub issue or, preferably, send me a pull request.
 
 ## License
 
-Copyright (c) 2014 Forfuture LLC
+MIT
 
-Sequential Ids and its source code are licensed under the [MIT][mit] license. See [LICENSE](LICENSE) file accompanying this text.
-
-
-[issues]:https://github.com/forfuture-dev/node-sequential-ids/issues
-[mit]:https://opensource.org/licenses/MIT
-[nodejs]:https://nodejs.org
-[npmjs]:https://npmjs.org/sequential-ids
-[repo]:https://github.com/forfuture-dev/node-sequential-ids
