@@ -215,6 +215,10 @@ The title of the article the Extract belongs to.
     * Where to download to
 * ...
 
+## Acknowledgements
+
+This module only exists thanks to the [Publico](https://www.publico.pt) newspaper and the team responsible for the [CETEMPublico](https://www.linguateca.pt/CETEMPublico/) corpus.
+
 ## Bugs and stuff
 Open a GitHub issue or, preferably, send me a pull request.
 
