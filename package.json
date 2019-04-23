@@ -1,7 +1,7 @@
 {
   "name": "cetem-publico",
   "version": "0.0.2",
-  "description": "European Portuguese corpus of news from the newspaper Público, with 180 million words tagged with PALAVRAS.",
+  "description": "A wrapper for CETEMPúblico, an European Portuguese corpus of news extracts from the newspaper Público, with 180 million words tagged automatically using PALAVRAS.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

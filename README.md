@@ -209,6 +209,7 @@ The title of the article the Extract belongs to.
 ## TODO
 
 * Implement `opts`
+* Add tests
 * Speed up download using `fast-request`?
 * Add options to `cp.download`
     * Where to download from
