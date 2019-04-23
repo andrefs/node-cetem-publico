@@ -111,7 +111,10 @@ object containing an `<extract>` of the original corpus file.
 ## Classes
 
 ### Token
-`new Token(word, info)`
+Used to represent the tokens in the original corpus file. In the
+format used by CETEMPublico, each token is in an individual line.
+
+#### `new Token(word, info)`
 
 * `word` is the word in the original corpus text
 * `info` (all these are optional)
@@ -126,7 +129,12 @@ object containing an `<extract>` of the original corpus file.
       CETEMPublico for this token
 
 ### MultiWordExpression
-`new MultiWordExpression({lemma, pos}, tokens)`
+
+CETEMPublico annotates some mult-word expressions using `<mwe>` tags.
+Inside each tag, the tokens which compose the expression, one in each
+line.
+
+#### `new MultiWordExpression({lemma, pos}, tokens)`
 
 * `lemma`
 ### Sentence
