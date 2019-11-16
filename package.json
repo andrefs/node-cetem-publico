@@ -20,7 +20,7 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/andrefs/node-cetem-publico.git"
-  }
+  },
   "dependencies": {
     "file-type": "^10.11.0",
     "mkdirp": "^0.5.1",
