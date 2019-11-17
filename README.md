@@ -83,12 +83,50 @@ exists, it print a warning message and does nothing.
 
 The whole file is 12GB, so this takes some time.
 
+You can monitor the download progress by listening to the
+`dl_progress` event. Example:
+
+```
+cp.on('dl_progress', state => {
+  ({
+    fileName,
+    speed,
+    percent,
+    elapsed,
+    remaining,
+    transf,
+    total
+  } = state);
+
+  process.stdout.write(`${fileName}\t${speed}\t${percent}%\t${elapsed}/${remaining}\t${transf}/${total}\r`);
+});
+
 Returns a `Promise`.
 
 ### cp.lines(opts)
 
 Returns an `AsyncGenerator` object where each item is a string
 containing a line of the original corpus file.
+
+You can monitor the progress of the corpus reading process by listening to the
+`read_progress` event. This is valid for any of the corpus reading
+functions (`cp.lines`, `cp.tokens`, `cp.sentences`, `cp.paragraphs` and `cp.extracts`). Example:
+
+```
+cp.on('read_progress', state => {
+  ({
+    speed,
+    percent,
+    elapsed,
+    remaining,
+    transf,
+    total
+  } = state);
+
+  process.stdout.write(`Progress: ${speed}\t${percent}%\t${elapsed}/${remaining}\t${transf}/${total}\r`);
+});
+```
+
 
 ### cp.tokens(opts)
 
