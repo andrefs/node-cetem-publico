@@ -1,6 +1,6 @@
 {
   "name": "cetem-publico",
-  "version": "0.3.2",
+  "version": "1.0.0",
   "description": "A wrapper for CETEMPúblico, an European Portuguese corpus of news extracts from the newspaper Público, with 180 million words tagged automatically using PALAVRAS.",
   "main": "index.js",
   "scripts": {
