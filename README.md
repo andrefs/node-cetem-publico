@@ -102,6 +102,7 @@ cp.on('dl_progress', state => {
 });
 
 Returns a `Promise`.
+```
 
 ### cp.lines(opts)
 
@@ -126,7 +127,6 @@ cp.on('read_progress', state => {
   process.stdout.write(`Progress: ${speed}\t${percent}%\t${elapsed}/${remaining}\t${transf}/${total}\r`);
 });
 ```
-
 
 ### cp.tokens(opts)
 
