@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "file-type": "^10.11.0",
+    "iconv": "^3.0.0",
     "mkdirp": "^1.0.4",
     "pretty-bytes": "^5.1.0",
     "progress-stream": "^2.0.0",
