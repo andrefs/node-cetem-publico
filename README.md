@@ -197,8 +197,8 @@ Event emitted when reading ends.
 
 ## Options (TODO)
 
-* `noMWEs`: Ignore multi-word expressions: return their tokens as any
-  other token.
+* `noMWEs`: Omit multi-word expressions
+* `simplMWEs`: Simplify MWEs: return their tokens as any other token
 * `noTitles`: Omit titles
 * `noAuthors`: Omit authors
 * `noTitles`: Omit titles
@@ -295,6 +295,8 @@ The title of the article the Extract belongs to.
 ## TODO
 
 * Implement `opts`
+* Fix ID in '«' and '»' (these quotation marks don't seem to get
+  attributed IDs in the original CETEMPublico)
 * Add tests
 * Speed up download using `fast-request`?
 * Add options to `cp.download`
@@ -307,7 +309,7 @@ The title of the article the Extract belongs to.
 This module only exists thanks to the [Publico](https://www.publico.pt) newspaper and the team responsible for the [CETEMPublico](https://www.linguateca.pt/CETEMPublico/) corpus.
 
 ## Bugs and stuff
-Open a GitHub issue or, preferably, send me a pull request.
+Open a [GitHub issue](https://github.com/andrefs/node-cetem-publico/issues) or, preferably, send me a pull request.
 
 ## License
 
