@@ -161,17 +161,18 @@ cp.on('dl_progress', state => {})
 
 `state` is an object containing the following fields:
 
-* `fileName`: the name of the file being downloaded (default:
+* `fileName`: name of the file being downloaded (default:
   `CETEMPublicoAnotado2019.gz`)
-* `speed`: prettified representation of the download speed (ex:
-  `160kb/s`)
+* `speed`: download speed (in bytes per second)
 * `percent`: percentage of the file already downloaded
-* `elapsed`: humanized representation of time passed (ex: `5m`)
-* `remaining`: humanized representation of time left (ex: `10m30s`)
-* `transf`: prettified representation of total transferred bytes (ex:
-  `150MB`)
-* `total`: prettified representation of the total size of the file
-  (ex: `2.1GB`)
+* `elapsed`: time passed (in seconds)
+* `remaining`: time left (in seconds)
+* `transf`: total transferred bytes
+* `total`: total size of the file (in bytes)
+
+### dl_end
+
+Event emitted when download ends.
 
 ### read_progress
 
@@ -183,15 +184,16 @@ cp.on('read_progress', state => {})
 
 `state` is an object containing the following fields:
 
-* `speed`: prettified representation of the read speed (ex:
-  `160kb/s`)
+* `speed`: read speed (in bytes per second)
 * `percent`: percentage of the file already read
-* `elapsed`: humanized representation of time passed (ex: `5m`)
-* `remaining`: humanized representation of time left (ex: `10m30s`)
-* `transf`: prettified representation of total read bytes (ex:
-  `150MB`)
-* `total`: prettified representation of the total size of the file
-  (ex: `2.1GB`)
+* `elapsed`: time passed (in seconds)
+* `remaining`: time left (in seconds)
+* `transf`: total read bytes
+* `total`: total size of the file (in bytes)
+
+### read_end
+
+Event emitted when reading ends.
 
 ## Options (TODO)
 
