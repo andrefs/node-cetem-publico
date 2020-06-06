@@ -173,7 +173,7 @@ cp.on('dl_progress', state => {})
 * `total`: prettified representation of the total size of the file
   (ex: `2.1GB`)
 
-## read_progress
+### read_progress
 
 Event emitted while processing the corpus file.
 
