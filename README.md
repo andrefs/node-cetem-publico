@@ -148,6 +148,51 @@ object containing a paragraph (`<p> tag)` of the original corpus file.
 Returns an `AsyncGenerator` object where each item is an Extract
 object containing an extract (`<ext>` tag) of the original corpus file.
 
+
+## Events
+
+### dl_progress
+
+Event emitted while downloading the corpus file.
+
+```
+cp.on('dl_progress', state => {})
+```
+
+`state` is an object containing the following fields:
+
+* `fileName`: the name of the file being downloaded (default:
+  `CETEMPublicoAnotado2019.gz`)
+* `speed`: prettified representation of the download speed (ex:
+  `160kb/s`)
+* `percent`: percentage of the file already downloaded
+* `elapsed`: humanized representation of time passed (ex: `5m`)
+* `remaining`: humanized representation of time left (ex: `10m30s`)
+* `transf`: prettified representation of total transferred bytes (ex:
+  `150MB`)
+* `total`: prettified representation of the total size of the file
+  (ex: `2.1GB`)
+
+## read_progress
+
+Event emitted while processing the corpus file.
+
+```
+cp.on('read_progress', state => {})
+```
+
+`state` is an object containing the following fields:
+
+* `speed`: prettified representation of the read speed (ex:
+  `160kb/s`)
+* `percent`: percentage of the file already read
+* `elapsed`: humanized representation of time passed (ex: `5m`)
+* `remaining`: humanized representation of time left (ex: `10m30s`)
+* `transf`: prettified representation of total read bytes (ex:
+  `150MB`)
+* `total`: prettified representation of the total size of the file
+  (ex: `2.1GB`)
+
 ## Options (TODO)
 
 * `noMWEs`: Ignore multi-word expressions: return their tokens as any
@@ -243,6 +288,7 @@ The title of the article the Extract belongs to.
 #### `new Title(tokens)`
 
 * `tokens`: an array of `Token` objects which make the title
+
 
 ## TODO
 
