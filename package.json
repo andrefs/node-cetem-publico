@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "cli-progress": "^3.8.2",
-    "file-type": "^10.11.0",
+    "file-type": "^16.5.4",
     "iconv": "^3.0.0",
     "mkdirp": "^1.0.4",
     "pretty-bytes": "^5.1.0",
